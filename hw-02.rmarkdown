@@ -9,7 +9,11 @@ format:
 toc: true
 ---
 
+
+
 ## 0 - Setup
+
+
 
 ```{r setup}
 
@@ -59,7 +63,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+
 ## 1 - A new day, a new plot, a new geom
+
+
 
 ```{r q1}
 
@@ -93,9 +101,13 @@ edibnb_wrangle |>
   theme_ridges()
 ```
 
+
+
 In interpreting this plot, one finds that most Airbnbs in Edinburgh are rated similarly, with high scores given to almost all properties. Ranked in order of descending median, we can interpret that certain neighborhoods like Bruntsfield and Morningside do receive higher ratings (median = 98), however variation between the best- and worst-ranked neighborhoods is minimal. Unfortunately, given the relative closeness of this data, a plot may not be the best tool to examine nuance in the dataset and a more traditional statistical summary might prove more useful.
 
 ## 2 - Foreign Connected PACs
+
+
 
 ```{r q2 data wrangling}
 
@@ -225,9 +237,13 @@ france_total |>
         )
 ```
 
+
+
 While donations from France-connected PACs to U.S. political parties are significantly lower than UK-connected PACs (max \$1M from France vs. \~\$3.5M from UK), the above plot mirrors the partisan support trend seen in the UK plot: PACs connected to both these countries favor the Republican party, and for the most part, donations are increasing over time. Most significantly is the spike in donations to the Republican party just after 2015 (likely for the 2016 election), which could reflect companies' favoring of Trump's supposedly prosperous economic policies. This rationale would also make sense given the sharp drop in donations to the Republican party following Trump's election and the revelation to the world of his lack of substantive economic policies.
 
 ## 3 - Median housing prices in the US
+
+
 
 ```{r q3 plot 1}
 
@@ -372,7 +388,11 @@ median_housing_wrangle |>
     coord_cartesian(ylim = c(300000, 360000), clip = "off")
 ```
 
+
+
 ## 4 - Expect More. Plot More.
+
+
 
 ```{r q4}
 
@@ -427,6 +447,9 @@ q4data1 |>
   theme_void()
 ```
 
+
+
 The primary approach I adopted was beginning with the bullseye part of the logo, which I toyed around with using annotations of circles in text geoms, but then realized I could accomplish the same goal much easier by using `geom_point()` mapped to a single point, 50, 50. I created three overlayed circles, a large red one, a smaller white one, and a smaller red one. I then used text annotations to accomplish the "Target" text as well as a text "R" and unicode circle to create the registered trademark icon.
 
 ## 5 - Mirror, mirror on the wall, who’s the ugliest of them all?
+
