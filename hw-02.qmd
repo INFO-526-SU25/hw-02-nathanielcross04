@@ -356,22 +356,23 @@ q4data1 |>
     geom = "text",
     x = 50,
     y = 20,
-    label = "TARGET  ",
-    size = 6,
-    color = "#E80018"
+    label = "TARGET   ",
+    size = 7,
+    color = "#E80018",
+    fontface = "bold"
   ) +
     annotate(
     geom = "text",
-    x = 57.5,
+    x = 58.25,
     y = 18,
     label = "◯",  #Source: Alan Wood Unicode Resources (https://www.alanwood.net/unicode/geometric_shapes.html)
-    size = 4,
+    size = 5,
     color = "#E80018"
   ) +
     annotate(
     geom = "text",
-    x = 57.5,
-    y = 17.75,
+    x = 58.25,
+    y = 17.5,
     label = "R",
     size = 2.5,
     color = "#E80018"
@@ -379,5 +380,7 @@ q4data1 |>
   coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) +
   theme_void()
 ```
+
+The primary approach I adopted was beginning with the bullseye part of the logo, which I toyed around with using annotations of circles in text geoms, but then realized I could accomplish the same goal much easier by using `geom_point()` mapped to a single point, 50, 50. I created three overlayed circles, a large red one, a smaller white one, and a smaller red one. I then used text annotations to accomplish the "Target" text as well as a text "R" and unicode circle to create the registered trademark icon.
 
 ## 5 - Mirror, mirror on the wall, who’s the ugliest of them all?
