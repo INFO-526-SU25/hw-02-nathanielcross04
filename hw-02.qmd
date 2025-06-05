@@ -7,6 +7,10 @@ format:
   html:
     embed-resources: true
 toc: true
+execute:
+  warning: false
+  message: false
+  error: false
 ---
 
 ## 0 - Setup
@@ -168,9 +172,6 @@ pac <- pac |>
     names_to = "party", 
     values_to = "amount"
   )
-
-pac |>
-  view()
 
 # summary table
 country_total <- pac |>
@@ -430,3 +431,87 @@ q4data1 |>
 The primary approach I adopted was beginning with the bullseye part of the logo, which I toyed around with using annotations of circles in text geoms, but then realized I could accomplish the same goal much easier by using `geom_point()` mapped to a single point, 50, 50. I created three overlayed circles, a large red one, a smaller white one, and a smaller red one. I then used text annotations to accomplish the "Target" text as well as a text "R" and unicode circle to create the registered trademark icon.
 
 ## 5 - Mirror, mirror on the wall, who’s the ugliest of them all?
+
+```{r q5 defaults}
+
+penguins |>
+  glimpse()
+
+# default plot
+penguins |>
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = sex)) +
+  geom_point() +
+  labs(
+    x = "Body mass (g)",
+    y = "Flipper length (mm)",
+    title = "Penguin flipper length increases with body mass",
+    subtitle = "By sex",
+    color = "Sex"
+  ) +
+  theme(
+    plot.title.position = "plot"
+  )
+```
+
+```{r q5 ugly}
+
+# ugly plot
+penguins |>
+  ggplot(aes(x = body_mass_g, y = flipper_length_mm, color = sex)) +
+  geom_point(size = 10, shape = 13) +
+  labs(
+    x = "Body mass (g)",
+    y = "Flipper length (mm)",
+    title = "Penguin \nflipper length \nincreases \nwith body \nmass",
+    color = "S\ne\nx"
+  ) +
+  theme(
+    axis.title.x = element_text(
+      color = "orangered1", 
+      size = 15, 
+      angle = 3, 
+      face = "italic"),
+    axis.title.y = element_text(
+      color = "pink", 
+      size = 17, 
+      face = "bold", 
+      angle = 94),
+    title = element_text(
+      color = "royalblue3", 
+      size = 8, 
+      angle = 2),
+    panel.grid.major.x = element_line(
+      color = "yellow", 
+      linewidth = 3),
+    panel.grid.major.y = element_line(
+      color = "violet", 
+      linewidth = 9),
+    legend.title = element_text(
+      color = "red", 
+      size = 80, 
+      face = "bold", 
+      angle = 0),
+    legend.background = element_rect(
+      fill = "darkgray", 
+      color = "palegreen2"),
+    panel.background = element_rect(
+      fill = "cyan", 
+      color = "deeppink3"),
+    legend.position = c(.9, .5),
+  ) +
+    scale_x_continuous(
+      breaks = c(1254.6, 2874.65, 3050, 3010, 4152, 4896, 5369, 5579, 6000)
+      ) +
+    scale_y_continuous(
+      breaks = c(100, 180, 182, 190, 230)
+      ) +
+    scale_color_manual(
+      values = c("male" = "maroon3", "female" = "magenta")
+      ) +
+    coord_cartesian(
+      xlim = c(1000, 6000), 
+      ylim = c(100, 300), 
+      clip = "off")
+
+# Color source: R color cheatsheet (https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf)
+```
