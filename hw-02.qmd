@@ -37,7 +37,8 @@ pacman::p_load(tidyverse,
                gghighlight,
                lubridate,
                dsbox,
-               ggridges
+               ggridges,
+               gtable
                )
 
 devtools::install_github("tidyverse/dsbox")
@@ -267,8 +268,116 @@ median_housing |>
 
 ```{r q3 plot 2}
 
+# find extreme dates in median housing
+arrange(median_housing, date) # Source: Geeks for Geeks (https://www.geeksforgeeks.org/how-to-sort-a-dataframe-in-r/)
+
+median_housing |>
+  slice_min(date) # 1963-01-01
+
+median_housing |>
+  slice_max(date) # 2021-04-01
+
+# label recessions as true if fall between median housing dates
+arrange(recessions, Peak)
+
+recessions |>
+  glimpse()
+
+recessions <- recessions |>
+ mutate(date_valid = if_else(Peak >= as.Date("1963-01-01", format = "%Y-%m-%d") & Trough <= as.Date("2021-04-01", format = "%Y-%m-%d"), 
+                               TRUE,
+                               FALSE))
+
+# keep only true recessions
+recessions_wrangle <- recessions |>
+  filter(date_valid == TRUE)
+
+median_housing |>
+  ggplot(aes(x = date, y = price)) +
+  geom_rect(
+    data = recessions_wrangle,
+    aes(
+      xmin = as.Date(Peak), xmax = as.Date(Trough),
+      ymin = -Inf, ymax = Inf,
+      y = NULL,
+      x = NULL
+    ), 
+    fill = "lightgray"
+  ) +
+  geom_line(color = "blue", linewidth = 1) +
+  labs(
+    x = NULL,
+    y = "Dollars",
+    title = "Median sales price of houses sold in the United States",
+    subtitle = "Not seasonally adjusted",
+    caption = "Shaded areas indicate U.S. recessions\nSource: Census; HUD"
+  ) +
+    scale_x_date(date_breaks = "5 years", date_labels = "%Y") +
+    scale_y_continuous(labels = scales::label_comma(), breaks = seq(0, 400000, by = 40000), limits = c(0, 400000)) +
+    theme(plot.title.position = "plot",
+          panel.grid.major.x = element_blank(), 
+          panel.grid.minor.x = element_blank()
+          )
+```
+
+```{r q3 plot 3}
+
+#DO THIS NATHANIEL!!!
+
 ```
 
 ## 4 - Expect More. Plot More.
+
+```{r q4}
+
+q4data1 <- tribble(
+  ~x,  ~y,
+  50,  50
+)
+
+q4data1 |>
+  ggplot() +
+  geom_point(
+    aes(x = x, y = y),
+    color = "#E80018", # Source: Scheme Color (https://www.schemecolor.com/target-red-logo-color.php#google_vignette)
+    size = 60
+  ) +
+    geom_point(
+    aes(x = x, y = y),
+    color = "#FFFFFF", # Source: Scheme Color (https://www.schemecolor.com/target-red-logo-color.php#google_vignette)
+    size = 40
+  ) +
+    geom_point(
+    aes(x = x, y = y),
+    color = "#E80018", # Source: Scheme Color (https://www.schemecolor.com/target-red-logo-color.php#google_vignette)
+    size = 20
+    ) +
+  annotate(
+    geom = "text",
+    x = 50,
+    y = 20,
+    label = "TARGET  ",
+    size = 6,
+    color = "#E80018"
+  ) +
+    annotate(
+    geom = "text",
+    x = 57.5,
+    y = 18,
+    label = "◯",  #Source: Alan Wood Unicode Resources (https://www.alanwood.net/unicode/geometric_shapes.html)
+    size = 4,
+    color = "#E80018"
+  ) +
+    annotate(
+    geom = "text",
+    x = 57.5,
+    y = 17.75,
+    label = "R",
+    size = 2.5,
+    color = "#E80018"
+  ) +
+  coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)) +
+  theme_void()
+```
 
 ## 5 - Mirror, mirror on the wall, who’s the ugliest of them all?
